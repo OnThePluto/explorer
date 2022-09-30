@@ -26,34 +26,24 @@ function processMenu() {
   if (isTestnet()) {
     chainMenus.push({
       title: 'Mainnet Explorer',
-      href: 'https://ping.pub',
+      href: 'https://explorer.onthepluto.com',
       icon: 'ChromeIcon',
     })
   } else {
     chainMenus.push({
       title: 'Testnet Explorer',
-      href: 'http://testnet.ping.pub',
+      href: 'https://explorer.onthepluto.com',
       icon: 'LifeBuoyIcon',
     })
   }
   chainMenus.push({
     title: 'Github',
-    href: 'https://github.com/ping-pub/explorer',
+    href: 'https://github.com/OnThePluto',
     icon: 'GithubIcon',
   })
   chainMenus.push({
-    title: 'Discord',
-    href: 'https://discord.gg/CmjYVSr6GW',
-    icon: 'EyeIcon',
-  })
-  chainMenus.push({
-    title: 'Twitter',
-    href: 'https://twitter.com/ping_pub',
-    icon: 'TwitterIcon',
-  })
-  chainMenus.push({
     title: 'Telegram',
-    href: 'https://t.me/pingpub',
+    href: 'https://t.me/Rossoman',
     icon: 'SendIcon',
   })
 
