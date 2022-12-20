@@ -19,21 +19,21 @@ function processMenu() {
       title: 'blockchains',
       children: blockchains,
       tag: `${blockchains.length}`,
-      icon: 'https://ping.pub/logo.svg',
+      // icon: 'https://ping.pub/logo.svg',
     })
   }
   chainMenus.push({ header: 'LINKS' })
   if (isTestnet()) {
     chainMenus.push({
-      title: 'Mainnet Explorer',
-      href: 'https://explorer.onthepluto.com',
-      icon: 'ChromeIcon',
-    })
-  } else {
-    chainMenus.push({
       title: 'Testnet Explorer',
       href: 'https://explorer.onthepluto.com',
       icon: 'LifeBuoyIcon',
+    })
+  } else {
+    chainMenus.push({
+      title: 'Mainnet Explorer',
+      href: 'https://explorer.onthepluto.com',
+      icon: 'ChromeIcon',
     })
   }
   chainMenus.push({
@@ -45,6 +45,11 @@ function processMenu() {
     title: 'Telegram',
     href: 'https://t.me/Rossoman',
     icon: 'SendIcon',
+  })
+  chainMenus.push({
+    title: 'Twitter',
+    href: 'https://twitter.com/OnThePluto',
+    icon: 'TwitterIcon',
   })
 
   return chainMenus

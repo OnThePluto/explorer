@@ -11,13 +11,22 @@ import { toHex } from '@cosmjs/encoding'
 
 let chains = {}
 
-const configs = require.context('../../chains/testnet', false, /\.json$/)
+const coingecko = {}
+let configs = require.context('../../chains/mainnet', false, /\.json$/)
+if (isTestnet()) {
+  configs = require.context('../../chains/testnet', false, /\.json$/)
+}
 
 const update = {}
 configs.keys().forEach(k => {
   const c = configs(k)
   c.chain_name = String(c.chain_name).toLowerCase()
   update[c.chain_name] = c
+  if (Array.isArray(c.assets)) {
+    c.assets.forEach(x => {
+      if (x.coingecko_id && x.coingecko_id !== '') coingecko[x.coingecko_id] = String(x.symbol).toUpperCase()
+    })
+  }
 })
 
 chains = update
@@ -80,9 +89,23 @@ export default {
   },
   actions: {
     async getQuotes(context) {
-      fetch('https://price.ping.pub/quotes').then(data => data.json()).then(data => {
-        context.commit('setQuotes', data)
-      })
+      // fetch('https://price.ping.pub/quotes').then(data => data.json()).then(data => {
+      //   context.commit('setQuotes', data)
+      // })
+      const keys = Object.keys(coingecko)
+      if (keys.length > 0) {
+        const currencies = 'usd,cny,eur,jpy,krw,sgd,hkd'
+        fetch(`https://api.coingecko.com/api/v3/simple/price?include_24hr_change=true&vs_currencies=${currencies}&ids=${keys.join(',')}`).then(data => data.json()).then(data => {
+          // use symbol as key instead of coingecko id
+          const quotes = {}
+          if (data && Object.keys(data)) {
+            Object.keys(data).forEach(k => {
+              quotes[coingecko[k]] = data[k]
+            })
+          }
+          context.commit('setQuotes', quotes)
+        })
+      }
     },
 
     async getAllIBCDenoms(context, _this) {

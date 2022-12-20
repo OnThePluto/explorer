@@ -16,6 +16,7 @@ export default class Proposal {
     this.voting_start_time = '0000-00-00'
     this.total_deposit = '-'
     this.contents = null
+    this.metadata = {}
   }
 
   init(element, total) {
@@ -23,21 +24,22 @@ export default class Proposal {
 
     this.id = element.proposal_id || element.id
     this.status = element.status
-    this.type = element.content.type
-    if (element.content['@type']) {
-      this.type = element.content['@type']
-    }
     this.tally = new ProposalTally().init(element.final_tally_result, total)
     this.submit_time = element.submit_time
     this.voting_end_time = element.voting_end_time
     this.voting_start_time = element.voting_start_time
     // eslint-disable-next-line prefer-destructuring
     this.total_deposit = element.total_deposit[0]
-    this.contents = element.content.value || element.content
+    if (element.content) this.contents = element.content.value || element.content
     if (this.contents) {
       this.title = this.contents.title
       this.description = this.contents.description
+      this.type = element.content.type
+      if (element.content['@type']) {
+        this.type = element.content['@type']
+      }
     }
+    this.metadata = element.metadata
     return this
   }
 
@@ -50,8 +52,17 @@ export default class Proposal {
   }
 
   versionFixed(ver) {
-    if (compareVersions(ver, '0.40') >= 0) {
-      // do nothing
+    if (compareVersions(ver, '0.46') >= 0) {
+      if (this.element.messages) [this.contents] = this.element.messages
+      if (this.contents) this.type = this.contents['@type']
+      if (this.contents['@type'] === '/cosmos.gov.v1.MsgExecLegacyContent') {
+        this.title = this.contents.content.title
+        this.description = this.contents.content.description
+      }
+      if (this.element.metadata) {
+        this.title = this.element.metadata.title || this.element.metadata
+        this.description = this.element.metadata.description || this.element.metadata
+      }
     } else if (compareVersions(ver, '0.30') >= 0) {
       switch (this.element.proposal_status) {
         case 'Passed':
@@ -64,7 +75,7 @@ export default class Proposal {
           this.status = 4
           break
         default:
-          this.status = 1
+          // this.status = 1
       }
     }
     if (String(this.status).indexOf('PASSED') > -1) {
