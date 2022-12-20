@@ -25,15 +25,15 @@ function processMenu() {
   chainMenus.push({ header: 'LINKS' })
   if (isTestnet()) {
     chainMenus.push({
-      title: 'Testnet Explorer',
-      href: 'https://explorer.onthepluto.com',
-      icon: 'LifeBuoyIcon',
+      title: 'Mainnet Explorer',
+      href: 'https://mainnet.onthepluto.com',
+      icon: 'ChromeIcon',
     })
   } else {
     chainMenus.push({
-      title: 'Mainnet Explorer',
-      href: 'https://explorer.onthepluto.com',
-      icon: 'ChromeIcon',
+      title: 'Testnet Explorer',
+      href: 'https://testnet.onthepluto.com',
+      icon: 'LifeBuoyIcon',
     })
   }
   chainMenus.push({
