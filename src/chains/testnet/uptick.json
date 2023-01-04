@@ -1,0 +1,18 @@
+
+{
+    "chain_name": "uptick",
+    "api": ["https://api-uptick_7000-1.mms.team"], 
+    "rpc": ["https://rpc-uptick_7000-1.mms.team"],
+    "sdk_version": "0.42.6",
+    "coin_type": "60",
+    "min_tx_fee": "800",
+    "assets": [{
+        "base": "UPTICK",
+        "symbol": "UPTICK",
+        "exponent": "6",
+        "coingecko_id": "UPTICK", 
+        "logo": "https://explorer.nodestake.top/logos/uptick.jpg"
+    }],
+    "addr_prefix": "uptick",
+    "logo": "https://explorer.nodestake.top/logos/uptick.jpg"
+}
